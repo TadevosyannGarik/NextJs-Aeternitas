@@ -106,7 +106,7 @@ export const CreateServerlModal = () => {
                             />
                         </div>
                         <DialogFooter className=" bg-gray-100 px-6 py-4">
-                            <Button variant="purple" disabled={isLoading}>
+                            <Button variant="purple" disabled={isLoading} className="w-full">
                                 Create
                             </Button>
                         </DialogFooter>

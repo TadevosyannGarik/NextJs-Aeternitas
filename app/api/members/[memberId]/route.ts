@@ -67,7 +67,7 @@ export async function DELETE(req: Request, { params }: { params: { memberId: str
         const serverId = searchParams.get("serverId");
   
         if (!profile) {
-            return new NextResponse("Unauthorized" ,{ status: 401 });
+            return new NextResponse("Unauthorized" , { status: 401 });
         }
   
         if (!serverId) {

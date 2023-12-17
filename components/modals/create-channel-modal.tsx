@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import qs from "query-string"
 import axios from "axios";
 import * as z from "zod";
+import { useEffect } from "react";
 
 
 const formShema = z.object({
@@ -28,19 +29,28 @@ const formShema = z.object({
 })
 
 export const CreateChannelModal = () => {
-    const {isOpen, onClose, type} = useModal()
+    const {isOpen, onClose, type, data} = useModal()
     const router = useRouter();
     const params = useParams();
 
     const isModalOpen = isOpen && type === "createChannel"
+    const { channelType } = data;
 
     const form = useForm({
         resolver: zodResolver(formShema),
         defaultValues: {
             name: "",
-            type: ChannelType.TEXT,
+            type: channelType || ChannelType.TEXT,
         }
     });
+
+    useEffect(() => {
+        if (channelType) {
+            form.setValue("type", channelType)
+        } else {
+            form.setValue("type", ChannelType.TEXT)
+        }
+    }, [channelType, form])
 
     const isLoading = form.formState.isSubmitting;
 

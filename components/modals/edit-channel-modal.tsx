@@ -1,19 +1,19 @@
 "use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useParams, useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useModal } from "@/hooks/use-modal-store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ChannelType } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import qs from "query-string"
 import axios from "axios";
-import * as z from "zod";
+import { useRouter } from "next/navigation";
+import qs from "query-string";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 
 const formShema = z.object({
@@ -28,41 +28,39 @@ const formShema = z.object({
     type: z.nativeEnum(ChannelType)
 })
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
     const {isOpen, onClose, type, data} = useModal()
     const router = useRouter();
-    const params = useParams();
 
-    const isModalOpen = isOpen && type === "createChannel"
-    const { channelType } = data;
+    const isModalOpen = isOpen && type === "editChannel"
+    const { server, channel } = data;
 
     const form = useForm({
         resolver: zodResolver(formShema),
         defaultValues: {
             name: "",
-            type: channelType || ChannelType.TEXT,
+            type: channel?.type || ChannelType.TEXT,
         }
     });
 
     useEffect(() => {
-        if (channelType) {
-            form.setValue("type", channelType)
-        } else {
-            form.setValue("type", ChannelType.TEXT)
+        if (channel) {
+            form.setValue("name", channel.name);
+            form.setValue("type", channel.type);
         }
-    }, [channelType, form])
+    }, [form, channel])
 
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formShema>) => {
         try {
             const url = qs.stringifyUrl({
-                url: "/api/channels",
+                url: `/api/channels/${channel?.id}`,
                 query: {
-                    serverId: params?.serverId
+                    serverId: server?.id
                 }
             });
-            await axios.post(url, values);
+            await axios.patch(url, values);
     
             form.reset();
             router.refresh();
@@ -82,11 +80,8 @@ export const CreateChannelModal = () => {
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
                     <DialogTitle className="text-2xl text-center font-bold">
-                        Create Channel
+                        Edit Channel
                     </DialogTitle>
-                    <DialogDescription className="text-center text-zinc-500">
-                        Give your server a personaity with a name and an image. You can always change it latter
-                    </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -144,7 +139,7 @@ export const CreateChannelModal = () => {
                         </div>
                         <DialogFooter className=" bg-gray-100 px-6 py-4">
                             <Button variant="purple" disabled={isLoading} className="w-full">
-                                Create
+                                Save
                             </Button>
                         </DialogFooter>
                     </form>

@@ -79,7 +79,7 @@ export const MembersModal = () => {
                         Menege Members
                     </DialogTitle>
                     <DialogDescription className="text-center text-zinc-500">
-                    In the Members Management section, you can: Remove a member, Assign moderator status Convert to guest status
+                    In the Members Management section, you can: Remove a member, Assign moderator status, Convert to guest status
                     </DialogDescription>
                 </DialogHeader>
                 <DialogDescription className="text-center text-zinc-500">

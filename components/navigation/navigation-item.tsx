@@ -12,7 +12,7 @@ interface NavigationAitemProps {
     name: string; 
 }
 
-export const NavigationAitem = ({id, imageUrl, name}: NavigationAitemProps) => {
+export const NavigationItem = ({id, imageUrl, name}: NavigationAitemProps) => {
     const params = useParams();
     const router = useRouter();
 

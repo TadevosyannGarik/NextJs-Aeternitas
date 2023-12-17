@@ -85,7 +85,7 @@ export const CreateChannelModal = () => {
                         Create Channel
                     </DialogTitle>
                     <DialogDescription className="text-center text-zinc-500">
-                        Give your server a personaity with a name and an image. You can always change it latter
+                        Give your channel a personaity with a name and an type. You can always change it latter
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>

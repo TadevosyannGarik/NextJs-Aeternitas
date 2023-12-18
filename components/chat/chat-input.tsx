@@ -10,6 +10,7 @@ import axios from "axios";
 import qs from "query-string"
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import {EmojiPicker} from "@/components/emoji-picker";
 
 
 interface ChatInputProps {
@@ -25,7 +26,6 @@ const formSchema = z.object({
 
 export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
     const router = useRouter();
-
     const { onOpen } = useModal();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -39,13 +39,14 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-          const url = qs.stringifyUrl({
-            url: apiUrl,
-            query,
-          });
+            const url = qs.stringifyUrl({
+                url: apiUrl,
+                query,
+            });
     
-          await axios.post(url, values);
-          form.reset();
+            await axios.post(url, values);
+            form.reset();
+            router.refresh();
         } catch (error) {
           console.log(error);
         }
@@ -75,7 +76,9 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                                         className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                                     />
                                     <div className=" absolute top-7 right-8">
-                                        <SmilePlusIcon />
+                                        <EmojiPicker
+                                            onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}
+                                        />
                                     </div>
                                 </div>
                             </FormControl>

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, SmileIcon, SmilePlusIcon } from "lucide-react";
 import axios from "axios";
 import qs from "query-string"
+import { useRouter } from "next/navigation";
 
 
 interface ChatInputProps {
@@ -22,6 +23,8 @@ const formSchema = z.object({
 });
 
 export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {    
@@ -29,20 +32,21 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
         }
     })
 
-    const isLoading = form.formState.isSubmitted;
+    const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const url = qs.stringifyUrl({
-                url: apiUrl,
-                query
-            });
-
-            await axios.post(url, values)
+          const url = qs.stringifyUrl({
+            url: apiUrl,
+            query,
+          });
+    
+          await axios.post(url, values);
+          form.reset();
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
-    }
+      }
 
     return (
         <Form {...form}>

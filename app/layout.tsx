@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/components/providers/sheme-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
 import { ModalProvider } from '@/components/providers/modal-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Open_Sans } from 'next/font/google'

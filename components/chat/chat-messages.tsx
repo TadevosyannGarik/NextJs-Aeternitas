@@ -114,7 +114,6 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
                                 isUpdated={message.updatedAt !== message.createdAt}
                                 socketUrl={socketUrl}
                                 socketQuery={socketQuery}
-                                timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
                             />
                         ))}
                     </Fragment>

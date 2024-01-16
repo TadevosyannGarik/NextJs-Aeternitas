@@ -26,6 +26,7 @@ interface ChatItemProps {
         profile: Profile
     };
     fileUrl: string | null;
+    timestamp: string;
     deleted: boolean;
     currentMember: Member;
     isUpdated: boolean;
@@ -43,7 +44,7 @@ const formSchema = z.object({
     content: z.string().min(1),
 });
 
-export const ChatItem = ({ id, content, member,  fileUrl, deleted, currentMember, isUpdated, socketUrl, socketQuery }: ChatItemProps) => {
+export const ChatItem = ({ id, content, member,  fileUrl, deleted, currentMember, isUpdated, socketUrl, socketQuery, timestamp }: ChatItemProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const {onOpen} = useModal();
     const params = useParams();
@@ -124,8 +125,8 @@ export const ChatItem = ({ id, content, member,  fileUrl, deleted, currentMember
                                 {roleIconMap[member.role]}
                             </ActionTooltip>
                         </div>
-                        <span className=" text-xs text-zinc-500 dark:text-zinc-400">
-                            
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                            {timestamp}
                         </span>
                     </div>
                     {isImage && (

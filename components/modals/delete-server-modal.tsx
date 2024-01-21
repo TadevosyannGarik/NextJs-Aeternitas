@@ -30,6 +30,7 @@ export const DeleteServerModal = () => {
             console.log(error);
         } finally {
             setIsLoading(false);
+            router.refresh();
         }
     }
 

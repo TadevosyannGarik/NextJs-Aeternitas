@@ -1,5 +1,5 @@
 
-# Aeternitas - [next-js-aeternitas.vercel.app](https://next-js-aeternitas.vercel.app/)
+# [Aeternitas](https://next-js-aeternitas.vercel.app/)
 ## Next.js
 
 FullStack Discord Clone
